@@ -2,14 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Url;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class UrlController extends Controller
 {
-    public function storeGetId(Request $request): int
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $urls = DB::table('urls')->get()->toArray();
+
+        return view('urls')
+            ->with('urls', $urls);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         $data = $request->validate([
             'url.name' => 'required|unique:urls,name|max:255|url'
@@ -18,19 +46,59 @@ class UrlController extends Controller
 
         flash("Страница успешно добавлена")->success();
 
-        return DB::table('urls')->insertGetId([
+        $id = DB::table('urls')->insertGetId([
             'name' => $data['url']['name'],
             'created_at' => $data['url']['created_at']
         ]);
+
+        return redirect()
+            ->route("urls.show", [$id]);
     }
 
-    public function showById(int $id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        return DB::table('urls')->find($id);
+        $url = DB::table('urls')->find($id);
+
+        return view('currentUrl', ['url' => $url]);
     }
 
-    public function showAll(): array
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
-        return DB::table('urls')->get()->toArray();
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }

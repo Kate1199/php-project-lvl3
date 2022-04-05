@@ -26,7 +26,7 @@
     Анализатор страниц
  </h2>
  <p class="lead">Бесплатно проверяйте сайты на SEO-пригодность</p>
-  <form method="POST" action="/addUrl" class="d-flex justify-content-center">
+  <form method="POST" action="/urls" class="d-flex justify-content-center">
     @csrf
     <input type="text" class="form-control form-control-lg" placeholder="https://www.example.com" id="url" name="url[name]" required>
     <input type="submit" class="btn btn-primary btn-lg ms-3 px-5 text-uppercase mx-3" value="Проверить"></input>

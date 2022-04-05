@@ -23,23 +23,27 @@ Route::get('/', function () {
     return view('app');
 });
 
-Route::get('/url/{id}', function (Request $request, $id) use ($urlController) {
-    $url = $urlController->showById($id);
+Route::resources([
+    'urls' => UrlController::class
+]);
 
-    return view('currentUrl', ['url' => $url]);
-})->name('url');
+// Route::get('/url/{id}', function (Request $request, $id) use ($urlController) {
+//     $url = $urlController->showById($id);
 
-Route::post('/addUrl', function (Request $request) use ($urlController) {
-    $id = $urlController->storeGetId($request);
+//     return view('currentUrl', ['url' => $url]);
+// })->name('url');
 
-    return redirect()
-        ->route("url", [$id])
-        ->with('success', 'Url created successfully');
-})->name('addNewUrl');
+// Route::post('/addUrl', function (Request $request) use ($urlController) {
+//     $id = $urlController->storeGetId($request);
 
-Route::get('/urls', function () use ($urlController) {
-    $urls = $urlController->showAll();
+//     return redirect()
+//         ->route("url", [$id])
+//         ->with('success', 'Url created successfully');
+// })->name('addNewUrl');
 
-    return view('urls')
-        ->with('urls', $urls);
-})->name("urls");
+// Route::get('/urls', function () use ($urlController) {
+//     $urls = $urlController->showAll();
+
+//     return view('urls')
+//         ->with('urls', $urls);
+// })->name("urls");
