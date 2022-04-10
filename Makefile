@@ -7,6 +7,6 @@ deploy:
 	git push heroku
 
 lint:
-	composer exec --verbose phpcs -- --standard=PSR12 src
+	composer exec --verbose phpcs -- --standard=PSR12 src tests
 log:
 	tail -f storage/logs/laravel.log
