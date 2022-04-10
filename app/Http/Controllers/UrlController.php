@@ -15,7 +15,7 @@ class UrlController extends Controller
      */
     public function index()
     {
-        $urls = DB::table('urls')->get()->toArray();
+        $urls = DB::table('urls')->get();
 
         return view('urls')
             ->with('urls', $urls);
@@ -51,8 +51,7 @@ class UrlController extends Controller
             'created_at' => $data['url']['created_at']
         ]);
 
-        return redirect()
-            ->route("urls.show", [$id]);
+        return redirect()->route("urls.show", ['url' => $id]);
     }
 
     /**
