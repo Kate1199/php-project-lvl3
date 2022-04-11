@@ -11,4 +11,4 @@ lint:
 log:
 	tail -f storage/logs/laravel.log
 install:
-	composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+	composer install --no-scripts
