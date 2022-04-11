@@ -10,3 +10,5 @@ lint:
 	composer exec --verbose phpcs -- --standard=PSR12 src tests
 log:
 	tail -f storage/logs/laravel.log
+install:
+	composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
