@@ -10,5 +10,9 @@ lint:
 	phpcs
 log:
 	tail -f storage/logs/laravel.log
-install:
-	composer install --no-scripts
+setup:
+	composer install
+	cp -n .env.example .env|| true
+	php artisan key:gen --ansi
+	php artisan migrate
+	npm ci
