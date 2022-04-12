@@ -19,10 +19,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.1'
+
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
@@ -34,6 +36,12 @@ jobs:
 
     - name: Run migrations
       run: php artisan migrate
+      env:
+        POSTGRES_HOST: postgres
+        POSTGRES_USER: postgres
+        POSTGRES_DATABASE: testdb
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_PORT: 5432
 
     - name: Run Tests
       run: make test
