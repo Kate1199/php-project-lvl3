@@ -6,7 +6,7 @@ jobs:
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
     env:
-      DB_HOST: postgres
+      DB_HOST: localhost
 
     steps:
     - uses: actions/checkout@v2
