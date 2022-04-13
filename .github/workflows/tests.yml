@@ -10,8 +10,8 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          DB_DATABASE: postgres        
-          DB_PASSWORD: postgres
+          DB_DATABASE: testdb        
+          DB_PASSWORD: 1111
           DB_USER: postgres
           DB_HOST: postgres
         ports:
