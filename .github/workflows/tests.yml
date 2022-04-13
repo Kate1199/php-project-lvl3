@@ -1,5 +1,5 @@
 on: push
-name: Tests CI
+name: PHP CI
 jobs:
   phpunit:
     runs-on: ubuntu-latest
@@ -28,6 +28,9 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.1'
+
+    - name: Run linter
+      run: composer lint
 
     - name: Setup project
       run: make setup
