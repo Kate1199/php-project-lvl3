@@ -30,7 +30,7 @@ jobs:
         php-version: '8.1'
 
     - name: Run linter
-      run: composer lint
+      run: composer phpcs
 
     - name: Setup project
       run: make setup
