@@ -5,8 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
-    env:
-      DB_HOST: postgres
     
     services:
       postgres:
@@ -15,6 +13,7 @@ jobs:
           DB_DATABASE: postgres        
           DB_PASSWORD: postgres
           DB_USER: postgres
+          DB_HOST: postgres
         ports:
           - 5432:5432
         # Set health checks to wait until postgres has started
