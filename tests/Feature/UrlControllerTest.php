@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class UrlControllerTest extends TestCase
 {
@@ -47,24 +48,30 @@ class UrlControllerTest extends TestCase
     {
         $faker = \Faker\Factory::create();
 
-        $url = [
-            'url' => [
-                'name' => $faker->url()
-            ]
-            // 'created_at' =>
-            //     $faker->date($format = 'Y-m-d', $max = 'now') .  " " . $faker->time($format = 'H:i:s', $max = 'now')
-        ];
+        $this->freezeTime(function (Carbon $time) use ($faker) {
+            $url = [
+                'url' => [
+                    'name' => $faker->url(),
+                    'created_at' => Carbon::now()
+                ]
+            ];
 
-        $response = $this->post(route('urls.store'), $url);
-        $response->assertRedirect(route('urls.show', ['url' => 4]));
+            $response = $this->post(route('urls.store'), $url);
+            $response->assertRedirect(route('urls.show', ['url' => 4]));
 
-        $this->assertDatabaseHas('urls', $url['url']);
+            $this->assertDatabaseHas('urls', $url['url']);
+        });
     }
 
     public function testShow()
     {
-        $this->assertDatabaseHas('urls', $this->urls[0]);
-        $this->assertDatabaseHas('urls', $this->urls[1]);
-        $this->assertDatabaseHas('urls', $this->urls[2]);
+        $response = $this->get(route('urls.show', ['url' => 1]));
+        $response->assertOk();
+
+        $response = $this->get(route('urls.show', ['url' => 2]));
+        $response->assertOk();
+
+        $response = $this->get(route('urls.show', ['url' => 3]));
+        $response->assertOk();
     }
 }
