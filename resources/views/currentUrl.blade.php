@@ -30,6 +30,40 @@
             </table>
         </div>
         <a href="/urls" class="btn btn-primary">Show All</a>
+
+        <h2 class="mt-5 mb-3">Проверки</h2>
+        <form method="post" action="/urls/{{ $url->id }}/checks">
+            @csrf
+            <input type="submit" class="btn btn-primary" value="Запустить проверку">
+        </form>
+
+        <table class="table table-bordered table-hover text-nowrap">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Код ответа</th>
+                <th>h1</th>
+                <th>title</th>
+                <th>description</th>
+                <th>Дата создания</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            @foreach ($urlChecks  as $urlCheck)
+            <tr>
+                <th>{{ $urlCheck->id }}</th>
+                <th>{{ $urlCheck->status_code }}</th>
+                <th>{{ $urlCheck->h1 }}</th>
+                <th>{{ $urlCheck->title }}</th>
+                <th>{{ $urlCheck->description }}</th>
+                <th>{{ $urlCheck->created_at }}</th>
+            </tr>
+            @endforeach
+        </tbody>
+        </table>
+
     </div>
+    
 </body>
 </html>
