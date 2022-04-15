@@ -14,17 +14,19 @@
       <table class="table table-bordered table-hover text-nowrap">
         <thead>
           <tr>
-            <th scope="col">id</th>
-            <th scope="col">Name</th>
-            <th scope="col">Created at</th>
+            <th scope="col">ID</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Последняя проверка</th>
+            <th scope="col">Код ответа</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($urls as $url)
             <tr>
               <th scope="row">{{ $url->id }}</th>
-              <td>{{ $url->name }}</td>
-              <td>{{ $url->created_at }}</td>
+              <td scope="row">{{ $url->name }}</td>
+              <td scope="row">{{ $url->last_check_created_at }}</td>
+              <td scope="row">{{ $url->status_code }}</td>
             </tr>
           @endforeach
         </tbody>

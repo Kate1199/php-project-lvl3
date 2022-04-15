@@ -15,7 +15,16 @@ class UrlController extends Controller
      */
     public function index()
     {
-        $urls = DB::table('urls')->get();
+        $urls = DB::table('urls');
+
+        $latestChecks = DB::table('url_checks')
+                ->select('url_id', DB::raw('MAX(created_at) as last_check_created_at'), 'status_code')
+                ->groupBy('url_id', 'status_code');
+
+        $urls = DB::table('urls')
+                ->leftJoinSub($latestChecks, 'latest_checks', function ($join) {
+                    $join->on('urls.id', '=', 'latest_checks.url_id');
+                })->get();
 
         return view('urls')
             ->with('urls', $urls);
