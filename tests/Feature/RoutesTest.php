@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class RoutesTest extends TestCase
 {
@@ -40,6 +41,7 @@ class RoutesTest extends TestCase
     public function urlChecksTest(): void
     {
         $faker = \Faker\Factory::create();
+        Http::fake();
 
         $url = DB::table('urls')->first();
         $urlId = $url->id;
@@ -48,7 +50,7 @@ class RoutesTest extends TestCase
             $urlCheck = [
                 'id' => 1,
                 'url_id' => $urlId,
-                'status_code' => null,
+                'status_code' => 200,
                 'h1' => null,
                 'title' => null,
                 'description' => null,
