@@ -24,8 +24,12 @@ Route::get('/', function () {
 Route::post('/urls/{id}/checks', function ($id) {
     $url = DB::table('urls')->find($id);
 
+    $response = Http::get($url->name);
+
     DB::table('url_checks')->insert([
-        'url_id' => $url->id, 'created_at' => Carbon::now()
+        'url_id' => $url->id,
+        'status_code' => $response->status(),
+        'created_at' => Carbon::now()
     ]);
 
     return redirect()->action([UrlController::class, 'show'], ['url' => $id]);
