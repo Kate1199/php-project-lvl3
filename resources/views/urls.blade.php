@@ -24,7 +24,9 @@
           @foreach ($urls as $url)
             <tr>
               <th scope="row">{{ $url->id }}</th>
-              <td scope="row">{{ $url->name }}</td>
+              <td scope="row">
+                <a href="/urls/{{ $url->id }}"> {{ $url->name }} </a>
+              </td>
               <td scope="row">{{ $url->last_check_created_at }}</td>
               <td scope="row">{{ $url->status_code }}</td>
             </tr>
