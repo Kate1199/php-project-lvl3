@@ -5,6 +5,7 @@ use App\Http\Controllers\UrlController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
+use Illuminate\Http\Client\ConnectionException;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,12 @@ Route::get('/', function () {
 Route::post('/urls/{id}/checks', function ($id) {
     $url = DB::table('urls')->find($id);
 
-    $response = Http::get($url->name);
+    try {
+        $response = Http::get($url->name);
+    } catch (ConnectionException $e) {
+        flash($e->getMessage(), 'danger');
+        return redirect()->action([UrlController::class, 'show'], ['url' => $id]);
+    }
 
     DB::table('url_checks')->insert([
         'url_id' => $url->id,
