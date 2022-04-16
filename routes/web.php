@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
 use Illuminate\Http\Client\ConnectionException;
+use DiDom\Document;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +33,17 @@ Route::post('/urls/{id}/checks', function ($id) {
         return redirect()->action([UrlController::class, 'show'], ['url' => $id]);
     }
 
+    $document = new Document($url->name, true);
+    $h1 = optional($document->first('h1'))->text();
+    $title = optional($document->first('title'))->text();
+    $description = optional($document->first('meta[name="description"]'))->getAttribute('content');
+
     DB::table('url_checks')->insert([
         'url_id' => $url->id,
         'status_code' => $response->status(),
+        'h1' => $h1,
+        'title' => $title,
+        'description' => $description,
         'created_at' => Carbon::now()
     ]);
 
