@@ -40,26 +40,47 @@ class RoutesTest extends TestCase
      */
     public function urlChecksTest(): void
     {
-        $faker = \Faker\Factory::create();
-        Http::fake();
-
         $url = DB::table('urls')->first();
         $urlId = $url->id;
+
+        Http::fake([
+            $url->name => Http::response(
+                "<h1>Test</h1>
+                <title>Test title</title>
+                <meta name=description content='Test description'",
+                200
+            )
+        ]);
 
         $this->freezeTime(function (Carbon $time) use ($urlId) {
             $urlCheck = [
                 'id' => 1,
                 'url_id' => $urlId,
                 'status_code' => 200,
-                'h1' => null,
-                'title' => null,
-                'description' => null,
+                'h1' => 'Test',
+                'title' => 'Test title',
+                'description' => 'Test description',
                 'created_at' => Carbon::now()
             ];
 
-            $this->post(route('urls.checks', ['id' => $urlId]));
+            $response = $this->post(route('urls.checks', ['id' => $urlId]));
 
             $this->assertDatabaseHas('url_checks', $urlCheck);
         });
+    }
+
+    public function urlChecksPageDoesNotExistsTest(): void
+    {
+        $url = DB::table('urls')->first();
+        $urlId = $url->id;
+
+        Http::fake([
+            $url->name => Http::response(404)
+        ]);
+
+        $this->post(route('urls.checks'), ['id' => $urlId]);
+
+        $this->assertNotFound();
+        $this->expectException(\Illuminate\Http\Client\ConnectionException::class);
     }
 }

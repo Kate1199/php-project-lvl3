@@ -33,7 +33,7 @@ Route::post('/urls/{id}/checks', function ($id) {
         return redirect()->action([UrlController::class, 'show'], ['url' => $id]);
     }
 
-    $document = new Document($url->name, true);
+    $document = new Document($response->body());
     $h1 = optional($document->first('h1'))->text();
     $title = optional($document->first('title'))->text();
     $description = optional($document->first('meta[name="description"]'))->getAttribute('content');
