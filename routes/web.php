@@ -7,6 +7,8 @@ use Illuminate\Http\Response;
 use Carbon\Carbon;
 use Illuminate\Http\Client\ConnectionException;
 use DiDom\Document;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------

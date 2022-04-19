@@ -12,8 +12,7 @@ class UrlControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $faker;
-    private $urls;
+    private array $urls;
 
     public function setUp(): void
     {
