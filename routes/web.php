@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Http;
 */
 
 Route::get('/', function () {
-    return view('app');
+    return view('index');
 });
 
 Route::post('/urls/{id}/checks', function ($id) {

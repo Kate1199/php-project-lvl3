@@ -46,7 +46,7 @@ class UrlController extends Controller
         $rowsWithSameName = DB::table('urls')->where('name', $data['url']['name']);
         if ($rowsWithSameName->count() !== 0) {
             flash("Cтраница уже существует")->important();
-            $id = $rowsWithSameName->first()->id;
+            $id = optional($rowsWithSameName->first())->id;
         } else {
             $id = DB::table('urls')->insertGetId([
                 'name' => $data['url']['name'],
