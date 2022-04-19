@@ -69,6 +69,12 @@ class RoutesTest extends TestCase
         });
     }
 
+    /**
+     * A url.cheks feature test if page doesn't exists.
+     *
+     * @return void
+     * @test
+     */
     public function urlChecksPageDoesNotExistsTest(): void
     {
         $url = DB::table('urls')->first();
@@ -78,9 +84,8 @@ class RoutesTest extends TestCase
             $url->name => Http::response(404)
         ]);
 
-        $this->post(route('urls.checks'), ['id' => $urlId]);
+        $response = $this->post(route('urls.checks', ['id' => $urlId]));
 
-        $this->assertNotFound();
-        $this->expectException(\Illuminate\Http\Client\ConnectionException::class);
+        $response->assertRedirect(route('urls.show', ['url' => $urlId]));
     }
 }
