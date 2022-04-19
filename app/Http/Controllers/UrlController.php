@@ -49,16 +49,22 @@ class UrlController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'url.name' => 'required|unique:urls,name|max:255|url'
+            'url.name' => 'required|max:255|url'
         ]);
         $data['url']['created_at'] = Carbon::now();
 
-        flash("Страница успешно добавлена")->success();
+        $rowsWithSameName = DB::table('urls')->where('name', $data['url']['name']);
+        if ($rowsWithSameName->count() !== 0) {
+            flash("Cтраница уже существует")->important();
+            $id = $rowsWithSameName->first()->id;
+        } else {
+            $id = DB::table('urls')->insertGetId([
+                'name' => $data['url']['name'],
+                'created_at' => $data['url']['created_at']
+            ]);
 
-        $id = DB::table('urls')->insertGetId([
-            'name' => $data['url']['name'],
-            'created_at' => $data['url']['created_at']
-        ]);
+            flash("Страница успешно добавлена")->success();
+        }
 
         return redirect()->route("urls.show", ['url' => $id]);
     }
