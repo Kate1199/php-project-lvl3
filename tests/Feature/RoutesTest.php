@@ -21,7 +21,7 @@ class RoutesTest extends TestCase
 
         $faker = \Faker\Factory::create();
 
-        $name = $faker->unique->url;
+        $name = $faker->unique()->url;
         $createdAt = $faker->
                 date($format = 'Y-m-d', $max = 'now') . " " . $faker->time($format = 'H:i:s', $max = 'now');
         $url = [

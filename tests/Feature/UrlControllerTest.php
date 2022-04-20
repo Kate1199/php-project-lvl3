@@ -23,7 +23,7 @@ class UrlControllerTest extends TestCase
         $this->urls = [];
 
         for ($i = 0; $i < 3; $i++) {
-            $name = $faker->unique->url;
+            $name = $faker->unique()->url;
             $createdAt = $faker->
                     date($format = 'Y-m-d', $max = 'now') . " " . $faker->time($format = 'H:i:s', $max = 'now');
             $url = [
