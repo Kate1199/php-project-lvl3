@@ -30,9 +30,9 @@ Route::post('/urls/{id}/checks', function ($id) {
 
     try {
         $response = Http::get($url->name);
-    } catch (ConnectionException $e) {
+    } catch (Exception $e) {
         flash($e->getMessage(), 'danger');
-        return redirect()->action([UrlController::class, 'show'], ['url' => $id]);
+        return redirect(route('urls.show', ['url' => $id]));
     }
 
     $document = new Document($response->body());
@@ -49,7 +49,7 @@ Route::post('/urls/{id}/checks', function ($id) {
         'created_at' => Carbon::now()
     ]);
 
-    return redirect()->action([UrlController::class, 'show'], ['url' => $id]);
+    return redirect(route('urls.show', ['url' => $id]));
 })->name('urls.checks');
 
 Route::resources([

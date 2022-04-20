@@ -26,8 +26,7 @@ class UrlController extends Controller
                     $join->on('urls.id', '=', 'latest_checks.url_id');
                 })->get();
 
-        return view('urls')
-            ->with('urls', $urls);
+        return view('urls', ['urls' => $urls]);
     }
 
     /**
