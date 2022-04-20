@@ -28,9 +28,11 @@
           @endforeach
         </tbody>
       </table>
-    </div>
 
-    <a href="/" class="btn btn-primary">New</a>
+      {{ $urls->links() }}
+
+      </nav>
+    </div>
   </div>
 @endsection
 

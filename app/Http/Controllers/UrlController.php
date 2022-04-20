@@ -24,7 +24,7 @@ class UrlController extends Controller
         $urls = DB::table('urls')
                 ->leftJoinSub($latestChecks, 'latest_checks', function ($join) {
                     $join->on('urls.id', '=', 'latest_checks.url_id');
-                })->get();
+                })->paginate(15);
 
         return view('urls', ['urls' => $urls]);
     }
