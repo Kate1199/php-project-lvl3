@@ -41,10 +41,10 @@ class RoutesTest extends TestCase
     public function urlChecksTest(): void
     {
         $url = DB::table('urls')->first();
-        $urlId = $url->id;
+        $urlId = optional($url)->id;
 
         Http::fake([
-            $url->name => Http::response(
+            optional($url)->name => Http::response(
                 "<h1>Test</h1>
                 <title>Test title</title>
                 <meta name=description content='Test description'",
@@ -78,10 +78,10 @@ class RoutesTest extends TestCase
     public function urlChecksPageDoesNotExistsTest(): void
     {
         $url = DB::table('urls')->first();
-        $urlId = $url->id;
+        $urlId = optional($url)->id;
 
         Http::fake([
-            $url->name => Http::response(404)
+            optional($url)->name => Http::response(404)
         ]);
 
         $response = $this->post(route('urls.checks', ['id' => $urlId]));
