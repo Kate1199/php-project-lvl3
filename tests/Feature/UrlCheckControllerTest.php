@@ -38,7 +38,7 @@ class RoutesTest extends TestCase
      * @return void
      * @test
      */
-    public function urlChecksTest(): void
+    public function testStore(): void
     {
         $url = DB::table('urls')->first();
         $urlId = optional($url)->id;
@@ -63,19 +63,13 @@ class RoutesTest extends TestCase
                 'created_at' => Carbon::now()
             ];
 
-            $response = $this->post(route('urls.checks', ['id' => $urlId]));
+            $response = $this->post(route('urls.checks.store', ['url' => $urlId]));
 
             $this->assertDatabaseHas('url_checks', $urlCheck);
         });
     }
 
-    /**
-     * A url.cheks feature test if page doesn't exists.
-     *
-     * @return void
-     * @test
-     */
-    public function urlChecksPageDoesNotExistsTest(): void
+    public function testStorePageDoesNotExists(): void
     {
         $url = DB::table('urls')->first();
         $urlId = optional($url)->id;
@@ -84,7 +78,7 @@ class RoutesTest extends TestCase
             optional($url)->name => Http::response(404)
         ]);
 
-        $response = $this->post(route('urls.checks', ['id' => $urlId]));
+        $response = $this->post(route('urls.checks.store', ['url' => $urlId]));
 
         $response->assertRedirect(route('urls.show', ['url' => $urlId]));
     }
