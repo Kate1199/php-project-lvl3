@@ -71,6 +71,11 @@ class UrlController extends Controller
     public function show($id)
     {
         $url = DB::table('urls')->find($id);
+
+        if (is_null($url)) {
+            return response("not found", 404);
+        }
+
         $urlChecks = DB::table('url_checks')->where('url_id', $id)->get();
 
         return view('currentUrl', ['url' => $url, 'urlChecks' => $urlChecks]);
