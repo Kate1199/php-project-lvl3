@@ -50,7 +50,7 @@ class UrlControllerTest extends TestCase
         $this->freezeTime(function (Carbon $time) use ($faker) {
             $url = [
                 'url' => [
-                    'name' => $faker->url(),
+                    'name' => "https://" . $faker->domainName(),
                     'created_at' => Carbon::now()
                 ]
             ];
