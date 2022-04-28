@@ -26,7 +26,7 @@ Route::get('/', function () {
 });
 
 Route::post('/urls/{id}/checks', function ($id) {
-    $url = DB::table('urls')->find($id);
+    $url = DB::table('urls')->findOrFail($id);
 
     try {
         $response = Http::get($url->name);
