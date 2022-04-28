@@ -40,16 +40,20 @@ class UrlController extends Controller
         $data = $request->validate([
             'url.name' => 'required|max:255|url'
         ]);
-        $data['url']['created_at'] = Carbon::now();
+        $createdAt = Carbon::now();
 
-        $rowsWithSameName = DB::table('urls')->where('name', $data['url']['name']);
+        $fullUrl = $data['url']['name'];
+        $parsedUrl = parse_url($fullUrl);
+        $urlName = $parsedUrl['scheme'] . "://" . $parsedUrl['host'];
+
+        $rowsWithSameName = DB::table('urls')->where('name', $urlName);
         if ($rowsWithSameName->count() !== 0) {
             flash("Cтраница уже существует")->important();
             $id = optional($rowsWithSameName->first())->id;
         } else {
             $id = DB::table('urls')->insertGetId([
-                'name' => $data['url']['name'],
-                'created_at' => $data['url']['created_at']
+                'name' => $urlName,
+                'created_at' => $createdAt
             ]);
 
             flash("Страница успешно добавлена")->success();
