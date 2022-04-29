@@ -10,8 +10,6 @@ use Database\Seeders\UrlSeeder;
 
 class UrlControllerTest extends TestCase
 {
-    protected $seeder = UrlSeeder::class;
-
     public function setUp(): void
     {
         parent::setUp();
