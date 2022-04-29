@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Carbon\Carbon;
@@ -11,8 +10,6 @@ use Illuminate\Support\Facades\Http;
 
 class RoutesTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function setUp(): void
     {
         parent::setUp();
@@ -32,12 +29,6 @@ class RoutesTest extends TestCase
         DB::table('urls')->insert($url);
     }
 
-    /**
-     * A url.cheks feature test.
-     *
-     * @return void
-     * @test
-     */
     public function testStore(): void
     {
         $url = DB::table('urls')->first();

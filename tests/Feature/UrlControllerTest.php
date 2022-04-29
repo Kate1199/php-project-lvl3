@@ -2,44 +2,38 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Database\Seeders\UrlSeeder;
 
 class UrlControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
-    private array $urls;
+    protected $seeder = UrlSeeder::class;
 
     public function setUp(): void
     {
         parent::setUp();
-        DB::table('urls')->truncate();
-
-        $faker = \Faker\Factory::create();
-        $this->urls = [];
-
-        for ($i = 0; $i < 3; $i++) {
-            $name = $faker->unique()->url;
-            $createdAt = $faker->
-                    date($format = 'Y-m-d', $max = 'now') . " " . $faker->time($format = 'H:i:s', $max = 'now');
-            $url = [
-                'name' => $name,
-                'created_at' => $createdAt
-            ];
-
-            $this->urls[] = $url;
-        }
-
-        DB::table('urls')->insert($this->urls);
+        $this->refreshDatabase();
+        $this->seed(UrlSeeder::class);
     }
 
     public function testIndex()
     {
         $response = $this->get(route('urls.index'));
+        $response->assertOk();
+    }
+
+    public function testShow()
+    {
+        $response = $this->get(route('urls.show', ['url' => 1]));
+        $response->assertOk();
+
+        $response = $this->get(route('urls.show', ['url' => 2]));
+        $response->assertOk();
+
+        $response = $this->get(route('urls.show', ['url' => 3]));
         $response->assertOk();
     }
 
@@ -60,17 +54,5 @@ class UrlControllerTest extends TestCase
 
             $this->assertDatabaseHas('urls', $url['url']);
         });
-    }
-
-    public function testShow()
-    {
-        $response = $this->get(route('urls.show', ['url' => 1]));
-        $response->assertOk();
-
-        $response = $this->get(route('urls.show', ['url' => 2]));
-        $response->assertOk();
-
-        $response = $this->get(route('urls.show', ['url' => 3]));
-        $response->assertOk();
     }
 }
