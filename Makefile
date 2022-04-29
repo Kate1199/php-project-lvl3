@@ -1,8 +1,7 @@
 start:
 	php artisan serve --host 0.0.0.0
 test:
-	php artisan test
-
+	php artisan test --testsuite=Feature
 deploy:
 	git push heroku
 
